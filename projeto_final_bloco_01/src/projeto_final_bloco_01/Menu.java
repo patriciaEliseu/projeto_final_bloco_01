@@ -85,7 +85,7 @@ public class Menu {
 				case 4:
 					System.out.println(Cores.TEXT_BLACK + "Atualizar dados do Produto\n\n");
 
-					
+					atualizarProduto();
 
 					keyPress();
 					break;
