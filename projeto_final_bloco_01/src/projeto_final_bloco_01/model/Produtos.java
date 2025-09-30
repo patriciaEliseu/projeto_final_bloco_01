@@ -57,7 +57,7 @@ public class Produtos {
 	}
 	
 	
-	public void visualizarTipo() {
+	public void visualizar() {
 		
 		String tipo = " ";
 		switch(this.tipo) {

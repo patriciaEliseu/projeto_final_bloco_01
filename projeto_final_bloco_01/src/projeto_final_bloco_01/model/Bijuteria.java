@@ -17,8 +17,9 @@ public class Bijuteria extends Produtos {
 		this.genero = genero;
 	}
 
-	public void visualizarGenero() {
-		super.visualizarTipo();
+	@Override
+	public void visualizar() {
+		super.visualizar();
 		System.out.printf("Nome do Gênero: %s\n", this.genero);
 	}
 	

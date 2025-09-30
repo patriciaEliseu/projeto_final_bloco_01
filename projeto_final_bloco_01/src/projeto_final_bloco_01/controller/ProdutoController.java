@@ -14,7 +14,7 @@ public class ProdutoController implements ProdutoRepository {
 	@Override
 	public void listarTodos() {
 		for (var produto : listaProdutos) {
-			produto.visualizarTipo();
+			produto.visualizar();
 		}
 
 	}
@@ -46,7 +46,7 @@ public class ProdutoController implements ProdutoRepository {
 		var produto = buscarNaCollection(id);
 		
 		if(produto != null) {
-			produto.visualizarTipo();
+			produto.visualizar();
 		} else {
 			System.out.printf("\nO produto id %d não foi encontrado!%n ", id);
 		}

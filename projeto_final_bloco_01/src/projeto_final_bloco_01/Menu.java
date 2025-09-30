@@ -192,10 +192,11 @@ public class Menu {
 		}
 
 		private static void atualizarProduto() {
-		    System.out.print("Digite o id do produto: ");
-		    int numero = Integer.parseInt(leia.nextLine());
+		    
+			System.out.print("Digite o id do produto: ");
+		    int id = Integer.parseInt(leia.nextLine());
 
-		    Produtos produto = produtoController.buscarNaCollection(numero);
+		    Produtos produto = produtoController.buscarNaCollection(id);
 
 		    if (produto != null) {
 		        int tipo = produto.getTipo();
@@ -221,7 +222,7 @@ public class Menu {
 
 		        switch (tipo) {
 		            case 1 -> produtoController.atualizar(
-		                new Decoracao(numero, tipo, descricao, artesao, preco)
+		                new Decoracao(id, tipo, descricao, artesao, preco)
 		            );
 		            case 2 -> {
 		                String genero = ((Bijuteria) produto).getGenero();
@@ -229,13 +230,13 @@ public class Menu {
 		                entrada = leia.nextLine();
 		                genero = entrada.isEmpty() ? genero : entrada;
 		                produtoController.atualizar(
-		                    new Bijuteria(numero, tipo, descricao, artesao, preco, genero)
+		                    new Bijuteria(id, tipo, descricao, artesao, preco, genero)
 		                );
 		            }
 		            default -> System.out.println(Cores.TEXT_RED + "Tipo inválido!" + Cores.TEXT_RESET);
 		        }
 		    } else {
-		        System.out.printf("\nO produto de id %d não foi encontrado!\n", numero);
+		        System.out.printf("\nO produto de id %d não foi encontrado!\n", id);
 		    }
 		}
 
