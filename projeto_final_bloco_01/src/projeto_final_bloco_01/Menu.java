@@ -125,34 +125,33 @@ public class Menu {
 		}
 		
 		private static void cadastrarProduto() {
-			System.out.print("Digite a descrição do produto: ");
-			leia.skip("\\R");
-			String descricao = leia.nextLine();
-			
-			System.out.print("Digite o tipo do produto( 1 - Deco | 2 - Biju): ");
-			int tipo = leia.nextInt();
-			
-			System.out.print("Digite o Artesao do produto: ");
-			String artesao = leia.nextLine();
-			
-			System.out.print("Digite o preco do produto: ");
-			float preco = leia.nextFloat();
-			
-			switch (tipo) {
-			case 1 -> {
-				
-				produtoController
-						.cadastrar(new Decoracao (produtoController.gerarId(),  tipo, descricao,artesao, preco));
-			}
-			case 2 -> {
-				System.out.print("Digite o genero do material:  ");
-				String genero = leia.nextLine();
-				leia.nextLine();
-				produtoController.cadastrar(
-						new Bijuteria(produtoController.gerarId(), tipo, descricao, artesao, preco,  genero ));
-			}
-			default -> System.out.println(Cores.TEXT_RED + "Tipo de Produto inválido!" + Cores.TEXT_RESET);
-			}
+		    System.out.print("Digite a descrição do produto: ");
+		    String descricao = leia.nextLine();
+
+		    System.out.print("Digite o tipo do produto (1 - Deco | 2 - Biju): ");
+		    int tipo = Integer.parseInt(leia.nextLine()); // lê como String e converte
+
+		    System.out.print("Digite o Artesao do produto: ");
+		    String artesao = leia.nextLine();
+
+		    System.out.print("Digite o preco do produto: ");
+		    float preco = Float.parseFloat(leia.nextLine()); // lê como String e converte
+
+		    switch (tipo) {
+		        case 1 -> {
+		            produtoController.cadastrar(
+		                new Decoracao(produtoController.gerarId(), tipo, descricao, artesao, preco)
+		            );
+		        }
+		        case 2 -> {
+		            System.out.print("Digite o genero do material: ");
+		            String genero = leia.nextLine();
+		            produtoController.cadastrar(
+		                new Bijuteria(produtoController.gerarId(), tipo, descricao, artesao, preco, genero)
+		            );
+		        }
+		        default -> System.out.println(Cores.TEXT_RED + "Tipo de Produto inválido!" + Cores.TEXT_RESET);
+		    }
 		}
 			
 		private static void procurarProdutoPorId() {
@@ -193,74 +192,51 @@ public class Menu {
 		}
 
 		private static void atualizarProduto() {
+		    System.out.print("Digite o id do produto: ");
+		    int numero = Integer.parseInt(leia.nextLine());
 
-			System.out.print("Digite o id do produto: ");
-			int numero = leia.nextInt();
-			leia.nextLine();
+		    Produtos produto = produtoController.buscarNaCollection(numero);
 
-			
-			Produtos produto = produtoController.buscarNaCollection(numero);
+		    if (produto != null) {
+		        int tipo = produto.getTipo();
+		        String descricao = produto.getDescricao();
+		        String artesao = produto.getArtesao();
+		        float preco = produto.getPreco();
 
-			
-			if (produto != null) {
+		        System.out.printf("Tipo atual: %d\nDigite o novo tipo (ENTER para manter): ", tipo);
+		        String entrada = leia.nextLine();
+		        tipo = entrada.isEmpty() ? tipo : Integer.parseInt(entrada);
 
-			
-				int tipo = produto.getTipo(); 
-				String descricao = produto.getDescricao();
-				String artesao = produto.getArtesao();
-				float preco = produto.getPreco();
-				
+		        System.out.printf("Descrição atual: %s\nDigite a nova descrição (ENTER para manter): ", descricao);
+		        entrada = leia.nextLine();
+		        descricao = entrada.isEmpty() ? descricao : entrada;
 
-				
-				System.out.printf(
-						"tipo de produto: %d\nDigite o novo tipo do produto. (Pressione ENTER para manter o valor atual): ",
-						tipo);
-				int entrada = leia.nextInt();
+		        System.out.printf("Artesão atual: %s\nDigite o novo artesão (ENTER para manter): ", artesao);
+		        entrada = leia.nextLine();
+		        artesao = entrada.isEmpty() ? artesao : entrada;
 
-				
-				tipo = entrada.isEmpty() ? tipo : entrada;
+		        System.out.printf("Preço atual: %.2f\nDigite o novo preço (ENTER para manter): ", preco);
+		        entrada = leia.nextLine();
+		        preco = entrada.isEmpty() ? preco : Float.parseFloat(entrada);
 
-				
-				System.out.printf(
-						"Descrição atuall: %s\nDigite a nova descriçao do produto. (Pressione ENTER para manter o valor atual): ",
-						descricao);
-				entrada = leia.nextLine();
-				descricao = entrada.isEmpty() ? descricao : entrada;
-
-				
-				
-
-				// Se a conta for do tipo Conta Corrente
-				switch (tipo) {
-				case 1 -> {
-
-				
-					
-					produtoController.atualizar(new Decoracao(numero, tipo, descricao,artesao, preco));
-
-				}
-				
-				case 2 -> {
-
-					String genero = ((Bijuteria) produto).getGenero();
-
-					
-					System.out.printf(
-							"Genero atual é: %s\nDigite o novo Gẽnero. (Pressione ENTER para manter o valor atual): ",
-							genero);
-					entrada = leia.nextLine();
-					genero = entrada.isEmpty() ? genero : entrada;
-					produtoController.atualizar(new Bijuteria(numero, tipo, descricao, artesao, preco,  genero));
-				}
-				
-				default -> System.out.println(Cores.TEXT_RED + "Tipo de Biju inválido!" + Cores.TEXT_RESET);
-				}
-
-			} else {
-				// Caso a conta não exista
-				System.out.printf("\nO produto de id %d não foi encontrado!", numero);
-			}
-
+		        switch (tipo) {
+		            case 1 -> produtoController.atualizar(
+		                new Decoracao(numero, tipo, descricao, artesao, preco)
+		            );
+		            case 2 -> {
+		                String genero = ((Bijuteria) produto).getGenero();
+		                System.out.printf("Gênero atual: %s\nDigite o novo gênero (ENTER para manter): ", genero);
+		                entrada = leia.nextLine();
+		                genero = entrada.isEmpty() ? genero : entrada;
+		                produtoController.atualizar(
+		                    new Bijuteria(numero, tipo, descricao, artesao, preco, genero)
+		                );
+		            }
+		            default -> System.out.println(Cores.TEXT_RED + "Tipo inválido!" + Cores.TEXT_RESET);
+		        }
+		    } else {
+		        System.out.printf("\nO produto de id %d não foi encontrado!\n", numero);
+		    }
 		}
 
 		
